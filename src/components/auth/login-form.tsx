@@ -19,19 +19,37 @@ export function LoginForm() {
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Senha</Label>
-          <Link href="/esqueci-senha" className="text-xs text-primary hover:underline">Esqueci minha senha</Link>
+          <Link href="/esqueci-senha" className="text-xs text-primary hover:underline">
+            Esqueci minha senha
+          </Link>
         </div>
         <div className="relative">
-          <Input id="password" type={showPassword ? 'text' : 'password'} placeholder="••••••••" required className="pr-10" />
-          <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+          <Input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="••••••••"
+            required
+            className="pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
       </div>
-      <Button type="submit" className="w-full mt-2">Entrar</Button>
+      <Button type="submit" className="w-full mt-2">
+        Entrar
+      </Button>
       <div className="relative my-3">
-        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-        <div className="relative flex justify-center text-xs text-gray-400 bg-white px-2">ou continue com</div>
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-200" />
+        </div>
+        <div className="relative flex justify-center text-xs text-gray-400 bg-white px-2">
+          ou continue com
+        </div>
       </div>
       <Button type="button" variant="outline" className="w-full gap-2">
         <svg className="w-4 h-4" viewBox="0 0 24 24">

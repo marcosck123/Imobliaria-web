@@ -24,7 +24,9 @@ export default function LoginPage() {
         </div>
         <p className="text-center text-sm text-gray-500 mt-5">
           Não tem conta?{' '}
-          <Link href="/cadastro" className="text-primary font-medium hover:underline">Criar conta gratuita</Link>
+          <Link href="/cadastro" className="text-primary font-medium hover:underline">
+            Criar conta gratuita
+          </Link>
         </p>
       </div>
     </div>
