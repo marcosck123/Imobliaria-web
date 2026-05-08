@@ -85,9 +85,11 @@ export default function AdminImoveisPage() {
                           <Eye className="w-3.5 h-3.5" />
                         </Button>
                       </Link>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Button>
+                      <Link href={`/admin/imoveis/${p.id}/editar`}>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <Pencil className="w-3.5 h-3.5" />
+                        </Button>
+                      </Link>
                       <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50">
                         <Trash2 className="w-3.5 h-3.5" />
                       </Button>

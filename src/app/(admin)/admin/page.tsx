@@ -14,6 +14,8 @@ import {
 import { mockProperties, pendingProperties } from '@/lib/mock-data'
 import { formatCurrency } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { RevenueChart } from '@/components/admin/revenue-chart'
+import { LeadsFunnel } from '@/components/admin/leads-funnel'
 
 export const metadata: Metadata = { title: 'Dashboard — Admin' }
 
@@ -193,6 +195,61 @@ export default function AdminDashboardPage() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Charts row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div className="lg:col-span-2">
+          <RevenueChart />
+        </div>
+        <div>
+          <LeadsFunnel />
+        </div>
+      </div>
+
+      {/* Top properties table */}
+      <div className="mt-6 bg-white rounded-xl border border-gray-200 p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-semibold text-gray-900 text-sm">Top imóveis por visualizações</h2>
+          <Link href="/admin/imoveis" className="text-xs text-primary hover:underline">Ver todos</Link>
+        </div>
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-xs text-gray-400 uppercase border-b border-gray-100">
+              <th className="pb-2 text-left font-semibold">Imóvel</th>
+              <th className="pb-2 text-right font-semibold hidden sm:table-cell">Visualizações</th>
+              <th className="pb-2 text-right font-semibold hidden md:table-cell">Contatos</th>
+              <th className="pb-2 text-right font-semibold">Preço</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {mockProperties.slice(0, 5).map((p, i) => {
+              const views = [842, 710, 634, 589, 412][i]
+              const contacts = [23, 18, 14, 11, 8][i]
+              return (
+                <tr key={p.id} className="hover:bg-gray-50/50">
+                  <td className="py-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400 w-4">{i + 1}</span>
+                      <p className="font-medium text-gray-900 truncate max-w-[200px]">{p.title}</p>
+                    </div>
+                    <p className="text-xs text-gray-400 ml-6">{p.neighborhood}, {p.city}</p>
+                  </td>
+                  <td className="py-3 text-right text-gray-600 hidden sm:table-cell">
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="w-16 bg-gray-100 rounded-full h-1.5 hidden md:block">
+                        <div className="bg-primary h-1.5 rounded-full" style={{ width: `${(views / 842) * 100}%` }} />
+                      </div>
+                      {views.toLocaleString('pt-BR')}
+                    </div>
+                  </td>
+                  <td className="py-3 text-right text-gray-600 hidden md:table-cell">{contacts}</td>
+                  <td className="py-3 text-right font-semibold text-primary">{formatCurrency(p.price)}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )
