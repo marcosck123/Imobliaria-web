@@ -1,75 +1,88 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Plus, Eye, Pencil, Trash2 } from 'lucide-react'
+import Image from 'next/image'
+import { PlusCircle, Eye, Pencil, Trash2, MapPin } from 'lucide-react'
 import { mockProperties } from '@/lib/mock-data'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, formatArea } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
-export const metadata: Metadata = { title: 'Admin — Imóveis' }
+export const metadata: Metadata = { title: 'Imóveis — Admin' }
 
 export default function AdminImoveisPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Imóveis</h1>
-            <p className="text-sm text-gray-500">{mockProperties.length} imóveis cadastrados</p>
-          </div>
-          <Link href="/admin/imoveis/novo" className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
-            <Plus className="w-4 h-4" /> Novo Imóvel
-          </Link>
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Imóveis publicados</h1>
+          <p className="text-gray-500 text-sm mt-1">{mockProperties.length} imóveis ativos no site</p>
         </div>
+        <Link href="/admin/imoveis/novo">
+          <Button className="gap-2"><PlusCircle className="w-4 h-4" /> Adicionar imóvel</Button>
+        </Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Imóvel</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3 hidden md:table-cell">Localização</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Preço</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3 hidden sm:table-cell">Status</th>
-                <th className="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Ações</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {mockProperties.map((property) => (
-                <tr key={property.id} className="hover:bg-gray-50 transition-colors">
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th className="px-5 py-3">Imóvel</th>
+              <th className="px-5 py-3 hidden md:table-cell">Localização</th>
+              <th className="px-5 py-3">Preço</th>
+              <th className="px-5 py-3 hidden lg:table-cell">Corretor</th>
+              <th className="px-5 py-3 hidden lg:table-cell">Status</th>
+              <th className="px-5 py-3 text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {mockProperties.map((p) => {
+              const primary = p.images.find((i) => i.isPrimary) ?? p.images[0]
+              return (
+                <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-5 py-4">
-                    <div>
-                      <p className="font-medium text-sm text-gray-900 line-clamp-1">{property.title}</p>
-                      <p className="text-xs text-gray-500">{property.type}</p>
+                    <div className="flex items-center gap-3">
+                      {primary && (
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                          <Image src={primary.url} alt={primary.alt} fill className="object-cover" sizes="48px" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 truncate max-w-[200px]">{p.title}</p>
+                        <Badge variant="outline" className="text-[10px] py-0">{p.type}</Badge>
+                      </div>
                     </div>
                   </td>
                   <td className="px-5 py-4 hidden md:table-cell">
-                    <p className="text-sm text-gray-600">{property.neighborhood}, {property.city}</p>
+                    <div className="flex items-center gap-1 text-sm text-gray-600">
+                      <MapPin className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                      <span className="truncate max-w-[160px]">{p.neighborhood}, {p.city}</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-0.5">{formatArea(p.area)}</p>
                   </td>
                   <td className="px-5 py-4">
-                    <p className="text-sm font-semibold text-primary">{formatCurrency(property.price)}</p>
+                    <p className="text-sm font-semibold text-primary">{formatCurrency(p.price)}</p>
+                    <Badge variant={p.status === 'Aluguel' ? 'aluguel' : 'venda'} className="text-[10px]">{p.status}</Badge>
                   </td>
-                  <td className="px-5 py-4 hidden sm:table-cell">
-                    <Badge variant={property.status === 'Aluguel' ? 'aluguel' : 'venda'}>{property.status}</Badge>
+                  <td className="px-5 py-4 hidden lg:table-cell">
+                    <p className="text-sm text-gray-600">{p.brokerName ?? '—'}</p>
                   </td>
-                  <td className="px-5 py-4">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link href={`/imoveis/${property.slug}`} className="p-1.5 text-gray-400 hover:text-primary rounded transition-colors" title="Ver">
-                        <Eye className="w-4 h-4" />
+                  <td className="px-5 py-4 hidden lg:table-cell">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium bg-green-100 text-green-700 px-2.5 py-1 rounded-full">Publicado</span>
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Link href={`/imoveis/${p.slug}`} target="_blank">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0"><Eye className="w-3.5 h-3.5" /></Button>
                       </Link>
-                      <Link href={`/admin/imoveis/${property.id}/editar`} className="p-1.5 text-gray-400 hover:text-accent rounded transition-colors" title="Editar">
-                        <Pencil className="w-4 h-4" />
-                      </Link>
-                      <button className="p-1.5 text-gray-400 hover:text-red-500 rounded transition-colors" title="Excluir">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0"><Pencil className="w-3.5 h-3.5" /></Button>
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"><Trash2 className="w-3.5 h-3.5" /></Button>
                     </div>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )

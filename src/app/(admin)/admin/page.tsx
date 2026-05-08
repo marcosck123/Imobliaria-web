@@ -1,105 +1,112 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { Building2, Users, MessageSquare, TrendingUp, Eye, Plus, ArrowUpRight } from 'lucide-react'
-import { mockProperties } from '@/lib/mock-data'
+import { Building2, MessageSquare, Users, Clock, CheckCircle2, PlusCircle, ArrowRight } from 'lucide-react'
+import { mockProperties, pendingProperties } from '@/lib/mock-data'
 import { formatCurrency } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 
-export const metadata: Metadata = { title: 'Admin — Painel' }
+export const metadata: Metadata = { title: 'Dashboard — Admin' }
 
-const stats = [
-  { label: 'Imóveis Ativos', value: '9', icon: Building2, change: '+2 este mês', color: 'bg-blue-50 text-blue-600' },
-  { label: 'Leads Recebidos', value: '34', icon: MessageSquare, change: '+8 esta semana', color: 'bg-green-50 text-green-600' },
-  { label: 'Usuários Cadastrados', value: '128', icon: Users, change: '+12 este mês', color: 'bg-purple-50 text-purple-600' },
-  { label: 'Visualizações', value: '1.2k', icon: TrendingUp, change: '+18% vs mês anterior', color: 'bg-amber-50 text-amber-600' },
+const statCards = [
+  { label: 'Imóveis ativos', value: String(mockProperties.length), icon: Building2, color: 'text-blue-600', bg: 'bg-blue-50', href: '/admin/imoveis' },
+  { label: 'Aguardando análise', value: String(pendingProperties.length), icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50', href: '/admin/imoveis/pendentes', alert: true },
+  { label: 'Leads este mês', value: '38', icon: MessageSquare, color: 'text-green-600', bg: 'bg-green-50', href: '/admin/leads' },
+  { label: 'Usuários cadastrados', value: '124', icon: Users, color: 'text-purple-600', bg: 'bg-purple-50', href: '/admin/usuarios' },
 ]
 
 export default function AdminDashboardPage() {
-  const recent = mockProperties.slice(0, 5)
+  const recentApproved = mockProperties.slice(0, 5)
+  const firstPending = pendingProperties.slice(0, 3)
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">Painel Administrativo</h1>
-            <p className="text-sm text-gray-500">Bem-vindo de volta, Admin</p>
-          </div>
-          <Link href="/admin/imoveis/novo" className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
-            <Plus className="w-4 h-4" /> Novo Imóvel
-          </Link>
-        </div>
+    <div className="p-8">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-500 text-sm mt-1">Visão geral da plataforma</p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {stats.map((stat) => {
-            const Icon = stat.icon
-            return (
-              <div key={stat.label} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                <div className="flex items-center justify-between mb-3">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${stat.color}`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-green-500" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        {statCards.map((card) => {
+          const Icon = card.icon
+          return (
+            <Link key={card.label} href={card.href} className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-10 h-10 ${card.bg} rounded-lg flex items-center justify-center`}>
+                  <Icon className={`w-5 h-5 ${card.color}`} />
                 </div>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                <p className="text-xs text-green-600 mt-1">{stat.change}</p>
+                {card.alert && <span className="text-xs bg-amber-100 text-amber-700 font-medium px-2 py-0.5 rounded-full">Ção necessária</span>}
               </div>
-            )
-          })}
-        </div>
+              <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+              <p className="text-sm text-gray-500 mt-0.5">{card.label}</p>
+            </Link>
+          )
+        })}
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Recent Properties */}
-          <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between p-5 border-b border-gray-100">
-              <h2 className="font-semibold text-gray-900">Imóveis Recentes</h2>
-              <Link href="/admin/imoveis" className="text-sm text-primary hover:text-accent transition-colors">Ver todos</Link>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          {pendingProperties.length > 0 && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Clock className="w-4 h-4 text-amber-600" />
+                <h2 className="font-semibold text-amber-900 text-sm">{pendingProperties.length} imóvel(is) aguardando análise</h2>
+              </div>
+              <div className="space-y-3">
+                {firstPending.map((p) => (
+                  <div key={p.id} className="flex items-start gap-3 bg-white rounded-lg p-3 border border-amber-100">
+                    <div className="w-10 h-10 rounded-lg bg-gray-100 bg-cover bg-center flex-shrink-0" style={{ backgroundImage: `url(${p.images[0]?.url})` }} />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-gray-900 truncate">{p.title}</p>
+                      <p className="text-xs text-gray-500">{p.brokerName} · {formatCurrency(p.price)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link href="/admin/imoveis/pendentes" className="mt-3 flex items-center gap-1.5 text-sm text-amber-700 font-medium hover:text-amber-900 transition-colors">
+                Ver todos os pendentes <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-            <div className="divide-y divide-gray-100">
-              {recent.map((property) => (
-                <div key={property.id} className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-colors">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-gray-900 truncate">{property.title}</p>
-                    <p className="text-xs text-gray-500">{property.neighborhood}, {property.city}</p>
-                  </div>
-                  <div className="flex items-center gap-3 ml-4">
-                    <span className="text-sm font-semibold text-primary">{formatCurrency(property.price)}</span>
-                    <Badge variant={property.status === 'Aluguel' ? 'aluguel' : 'venda'} className="text-xs">{property.status}</Badge>
-                    <Link href={`/admin/imoveis/${property.id}`} className="text-gray-400 hover:text-primary transition-colors">
-                      <Eye className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
+          )}
+
+          <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <h2 className="font-semibold text-gray-900 text-sm mb-4">Ações rápidas</h2>
+            <div className="space-y-2">
+              <Link href="/admin/imoveis/novo" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><PlusCircle className="w-4 h-4 text-primary" /></div>
+                <span className="text-sm text-gray-700">Adicionar novo imóvel</span>
+              </Link>
+              <Link href="/admin/imoveis/pendentes" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center"><Clock className="w-4 h-4 text-amber-600" /></div>
+                <span className="text-sm text-gray-700">Revisar pendentes</span>
+              </Link>
+              <Link href="/admin/leads" className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center"><MessageSquare className="w-4 h-4 text-green-600" /></div>
+                <span className="text-sm text-gray-700">Ver novos leads</span>
+              </Link>
             </div>
           </div>
+        </div>
 
-          {/* Quick Links */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h2 className="font-semibold text-gray-900 mb-4">Ações Rápidas</h2>
-            <div className="space-y-2">
-              {[
-                { href: '/admin/imoveis/novo', label: 'Cadastrar Imóvel', icon: Building2, color: 'bg-blue-50 text-blue-600' },
-                { href: '/admin/leads', label: 'Ver Leads', icon: MessageSquare, color: 'bg-green-50 text-green-600' },
-                { href: '/admin/usuarios', label: 'Gerenciar Usuários', icon: Users, color: 'bg-purple-50 text-purple-600' },
-                { href: '/admin/imoveis', label: 'Todos os Imóveis', icon: Building2, color: 'bg-amber-50 text-amber-600' },
-              ].map((item) => {
-                const Icon = item.icon
-                return (
-                  <Link key={item.href} href={item.href} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${item.color}`}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700 group-hover:text-primary transition-colors">{item.label}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-gray-400 ml-auto group-hover:text-primary transition-colors" />
-                  </Link>
-                )
-              })}
-            </div>
+        <div className="lg:col-span-3 bg-white rounded-xl border border-gray-200 p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-gray-900 text-sm">Imóveis recentes (aprovados)</h2>
+            <Link href="/admin/imoveis" className="text-xs text-primary hover:underline">Ver todos</Link>
+          </div>
+          <div className="space-y-3">
+            {recentApproved.map((p) => (
+              <div key={p.id} className="flex items-center gap-3 py-2 border-b border-gray-50 last:border-0">
+                <div className="w-10 h-10 rounded-lg bg-gray-100 bg-cover bg-center flex-shrink-0" style={{ backgroundImage: `url(${p.images[0]?.url})` }} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{p.title}</p>
+                  <p className="text-xs text-gray-500">{p.city} · {p.brokerName ?? '—'}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="text-sm font-semibold text-primary">{formatCurrency(p.price)}</p>
+                  <Badge variant={p.status === 'Aluguel' ? 'aluguel' : 'venda'} className="text-[10px]">{p.status}</Badge>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-green-500" />
+              </div>
+            ))}
           </div>
         </div>
       </div>

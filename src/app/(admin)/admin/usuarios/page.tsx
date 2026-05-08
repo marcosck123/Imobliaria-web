@@ -1,82 +1,82 @@
 import { Metadata } from 'next'
-import { UserCheck, UserX, Shield, User } from 'lucide-react'
+import { Mail, Phone, Shield } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
-export const metadata: Metadata = { title: 'Admin — Usuários' }
+export const metadata: Metadata = { title: 'Usuários — Admin' }
+
+type Role = 'ADMIN' | 'CORRETOR' | 'CLIENTE'
 
 const mockUsers = [
-  { id: '1', name: 'Carlos Eduardo Ribeiro', email: 'carlos@imovelprime.com.br', role: 'ADMIN', active: true, createdAt: '2024-01-01' },
-  { id: '2', name: 'Fernanda Oliveira', email: 'fernanda@imovelprime.com.br', role: 'BROKER', active: true, createdAt: '2024-01-10' },
-  { id: '3', name: 'Rodrigo Almeida', email: 'rodrigo@imovelprime.com.br', role: 'BROKER', active: true, createdAt: '2024-01-15' },
-  { id: '4', name: 'Ana Paula Silva', email: 'ana@email.com', role: 'CLIENT', active: true, createdAt: '2024-02-01' },
-  { id: '5', name: 'Carlos Mendes', email: 'carlos.m@email.com', role: 'CLIENT', active: true, createdAt: '2024-02-05' },
-  { id: '6', name: 'Roberto Lima', email: 'roberto@email.com', role: 'CLIENT', active: false, createdAt: '2024-02-10' },
+  { id: '1', name: 'Admin Principal', email: 'admin@imovelprime.com.br', phone: '(11) 3000-0000', role: 'ADMIN' as Role, createdAt: '2024-01-01' },
+  { id: '2', name: 'Carlos Mendes', email: 'carlos@imovelprime.com.br', phone: '(11) 97777-2222', role: 'CORRETOR' as Role, createdAt: '2024-01-10' },
+  { id: '3', name: 'Ana Lima', email: 'ana@imovelprime.com.br', phone: '(11) 98888-1111', role: 'CORRETOR' as Role, createdAt: '2024-01-12' },
+  { id: '4', name: 'Pedro Costa', email: 'pedro@imovelprime.com.br', phone: '(11) 95555-4444', role: 'CORRETOR' as Role, createdAt: '2024-01-15' },
+  { id: '5', name: 'Fernanda Rocha', email: 'fernanda@imovelprime.com.br', phone: '(11) 96666-3333', role: 'CORRETOR' as Role, createdAt: '2024-02-01' },
+  { id: '6', name: 'Roberto Alves', email: 'roberto@email.com', phone: '(11) 98765-4321', role: 'CLIENTE' as Role, createdAt: '2024-03-10' },
+  { id: '7', name: 'Camila Ferreira', email: 'camila@email.com', phone: '(11) 97654-3210', role: 'CLIENTE' as Role, createdAt: '2024-03-15' },
+  { id: '8', name: 'Lucas Souza', email: 'lucas@email.com', phone: '(11) 96543-2109', role: 'CLIENTE' as Role, createdAt: '2024-04-01' },
 ]
 
-const roleConfig = {
-  ADMIN: { label: 'Admin', icon: Shield, className: 'bg-red-100 text-red-700' },
-  BROKER: { label: 'Corretor', icon: User, className: 'bg-blue-100 text-blue-700' },
-  CLIENT: { label: 'Cliente', icon: User, className: 'bg-gray-100 text-gray-700' },
+const roleConfig: Record<Role, { label: string; className: string }> = {
+  ADMIN: { label: 'Admin', className: 'bg-purple-100 text-purple-700' },
+  CORRETOR: { label: 'Corretor', className: 'bg-blue-100 text-blue-700' },
+  CLIENTE: { label: 'Cliente', className: 'bg-gray-100 text-gray-600' },
 }
 
 export default function AdminUsuariosPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-xl font-bold text-gray-900">Usuários</h1>
-          <p className="text-sm text-gray-500">{mockUsers.length} usuários cadastrados</p>
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Usuários</h1>
+          <p className="text-gray-500 text-sm mt-1">{mockUsers.length} usuários cadastrados</p>
         </div>
+        <Button className="gap-2"><Shield className="w-4 h-4" />Convidar corretor</Button>
       </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Usuário</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3 hidden md:table-cell">E-mail</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Perfil</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3">Status</th>
-                <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-5 py-3 hidden sm:table-cell">Cadastro</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {mockUsers.map((user) => {
-                const role = roleConfig[user.role as keyof typeof roleConfig]
-                const Icon = role.icon
-                return (
-                  <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-4 h-4 text-primary" />
-                        </div>
-                        <p className="font-medium text-sm text-gray-900">{user.name}</p>
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th className="px-5 py-3">Usuário</th>
+              <th className="px-5 py-3 hidden md:table-cell">Contato</th>
+              <th className="px-5 py-3">Perfil</th>
+              <th className="px-5 py-3 hidden lg:table-cell">Cadastro</th>
+              <th className="px-5 py-3 text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {mockUsers.map((user) => {
+              const cfg = roleConfig[user.role]
+              return (
+                <tr key={user.id} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-primary font-bold text-sm">{user.name.charAt(0)}</span>
                       </div>
-                    </td>
-                    <td className="px-5 py-4 hidden md:table-cell">
-                      <p className="text-sm text-gray-600">{user.email}</p>
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${role.className}`}>
-                        {role.label}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      {user.active
-                        ? <span className="inline-flex items-center gap-1 text-xs text-green-700"><UserCheck className="w-3.5 h-3.5" />Ativo</span>
-                        : <span className="inline-flex items-center gap-1 text-xs text-red-600"><UserX className="w-3.5 h-3.5" />Inativo</span>
-                      }
-                    </td>
-                    <td className="px-5 py-4 hidden sm:table-cell">
-                      <p className="text-sm text-gray-500">{new Date(user.createdAt).toLocaleDateString('pt-BR')}</p>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                      <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                    </div>
+                  </td>
+                  <td className="px-5 py-4 hidden md:table-cell">
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-1.5 text-sm text-gray-600"><Mail className="w-3.5 h-3.5 text-gray-400" />{user.email}</div>
+                      <div className="flex items-center gap-1.5 text-sm text-gray-600"><Phone className="w-3.5 h-3.5 text-gray-400" />{user.phone}</div>
+                    </div>
+                  </td>
+                  <td className="px-5 py-4">
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${cfg.className}`}>{cfg.label}</span>
+                  </td>
+                  <td className="px-5 py-4 hidden lg:table-cell">
+                    <p className="text-sm text-gray-500">{new Date(user.createdAt).toLocaleDateString('pt-BR')}</p>
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    <Button size="sm" variant="outline" className="text-xs">Editar</Button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )
