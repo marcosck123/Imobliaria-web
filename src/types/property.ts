@@ -10,6 +10,12 @@ export enum PropertyStatus {
   ALUGUEL = 'Aluguel',
 }
 
+export enum ApprovalStatus {
+  PENDENTE = 'Pendente',
+  APROVADO = 'Aprovado',
+  REJEITADO = 'Rejeitado',
+}
+
 export interface PropertyImage {
   id: string
   url: string
@@ -24,6 +30,7 @@ export interface Property {
   description: string
   type: PropertyType
   status: PropertyStatus
+  approvalStatus: ApprovalStatus
   price: number
   condominioPrice?: number
   iptuPrice?: number
@@ -40,6 +47,10 @@ export interface Property {
   featured: boolean
   createdAt: string
   updatedAt: string
+  brokerId?: string
+  brokerName?: string
+  brokerPhone?: string
+  rejectionReason?: string
 }
 
 export interface PropertyFilters {
