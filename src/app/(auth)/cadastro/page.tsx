@@ -24,7 +24,9 @@ export default function CadastroPage() {
         </div>
         <p className="text-center text-sm text-gray-500 mt-5">
           Já tem conta?{' '}
-          <Link href="/login" className="text-primary font-medium hover:underline">Entrar</Link>
+          <Link href="/login" className="text-primary font-medium hover:underline">
+            Entrar
+          </Link>
         </p>
       </div>
     </div>

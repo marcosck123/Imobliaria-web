@@ -96,6 +96,7 @@ export default function PendentesPage() {
         </p>
       </div>
 
+      {/* Info banner */}
       {counts.PENDENTE > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3 mb-6">
           <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
@@ -110,6 +111,7 @@ export default function PendentesPage() {
         </div>
       )}
 
+      {/* Tabs */}
       <div className="flex gap-1 bg-gray-100 p-1 rounded-lg w-fit mb-6">
         {tabs.map((tab) => (
           <button
@@ -133,6 +135,7 @@ export default function PendentesPage() {
         ))}
       </div>
 
+      {/* Cards */}
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-400">
           <Clock className="w-12 h-12 mx-auto mb-3 opacity-30" />
@@ -156,6 +159,7 @@ export default function PendentesPage() {
                 }`}
               >
                 <div className="flex flex-col md:flex-row">
+                  {/* Image */}
                   <div className="relative w-full md:w-52 h-40 md:h-auto flex-shrink-0">
                     {primaryImage && (
                       <Image
@@ -185,6 +189,7 @@ export default function PendentesPage() {
                     </div>
                   </div>
 
+                  {/* Content */}
                   <div className="flex-1 p-5">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                       <div>
@@ -208,6 +213,7 @@ export default function PendentesPage() {
                       </div>
                     </div>
 
+                    {/* Stats */}
                     <div className="flex flex-wrap items-center gap-3 mt-3 text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <Ruler className="w-3.5 h-3.5 text-gray-400" />
@@ -233,6 +239,7 @@ export default function PendentesPage() {
                       )}
                     </div>
 
+                    {/* Broker info */}
                     <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-1.5 text-sm text-gray-600">
                         <User className="w-3.5 h-3.5 text-gray-400" />
@@ -249,15 +256,20 @@ export default function PendentesPage() {
                       </span>
                     </div>
 
+                    {/* Expandable description */}
                     <div className="mt-3">
                       <button
                         onClick={() => update(p.id, { showDetails: !item.showDetails })}
                         className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700 transition-colors"
                       >
                         {item.showDetails ? (
-                          <><ChevronUp className="w-3.5 h-3.5" /> Ocultar descrição</>
+                          <>
+                            <ChevronUp className="w-3.5 h-3.5" /> Ocultar descrição
+                          </>
                         ) : (
-                          <><ChevronDown className="w-3.5 h-3.5" /> Ver descrição completa</>
+                          <>
+                            <ChevronDown className="w-3.5 h-3.5" /> Ver descrição completa
+                          </>
                         )}
                       </button>
                       {item.showDetails && (
@@ -267,6 +279,7 @@ export default function PendentesPage() {
                       )}
                     </div>
 
+                    {/* Actions */}
                     {item.localStatus === 'PENDENTE' && !item.showRejectForm && (
                       <div className="flex items-center gap-3 mt-4">
                         <Button
@@ -289,6 +302,7 @@ export default function PendentesPage() {
                       </div>
                     )}
 
+                    {/* Rejection form */}
                     {item.showRejectForm && (
                       <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
                         <p className="text-sm font-semibold text-red-900 mb-2 flex items-center gap-1.5">
@@ -316,20 +330,28 @@ export default function PendentesPage() {
                           >
                             Confirmar rejeição
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => cancelReject(p.id)}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => cancelReject(p.id)}
+                          >
                             Cancelar
                           </Button>
                         </div>
                       </div>
                     )}
 
+                    {/* Approved feedback */}
                     {item.localStatus === 'APROVADO' && (
                       <div className="mt-4 flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-2.5">
                         <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                        <span>Imóvel aprovado e publicado no site com sucesso.</span>
+                        <span>
+                          Imóvel aprovado e publicado no site com sucesso.
+                        </span>
                       </div>
                     )}
 
+                    {/* Rejected feedback */}
                     {item.localStatus === 'REJEITADO' && (
                       <div className="mt-4 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
                         <div className="flex items-center gap-2 text-sm text-red-700 mb-1">

@@ -18,7 +18,10 @@ export default function AdminImoveisPage() {
           <p className="text-gray-500 text-sm mt-1">{mockProperties.length} imóveis ativos no site</p>
         </div>
         <Link href="/admin/imoveis/novo">
-          <Button className="gap-2"><PlusCircle className="w-4 h-4" /> Adicionar imóvel</Button>
+          <Button className="gap-2">
+            <PlusCircle className="w-4 h-4" />
+            Adicionar imóvel
+          </Button>
         </Link>
       </div>
 
@@ -48,7 +51,9 @@ export default function AdminImoveisPage() {
                       )}
                       <div className="min-w-0">
                         <p className="text-sm font-semibold text-gray-900 truncate max-w-[200px]">{p.title}</p>
-                        <Badge variant="outline" className="text-[10px] py-0">{p.type}</Badge>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <Badge variant="outline" className="text-[10px] py-0">{p.type}</Badge>
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -61,21 +66,33 @@ export default function AdminImoveisPage() {
                   </td>
                   <td className="px-5 py-4">
                     <p className="text-sm font-semibold text-primary">{formatCurrency(p.price)}</p>
-                    <Badge variant={p.status === 'Aluguel' ? 'aluguel' : 'venda'} className="text-[10px]">{p.status}</Badge>
+                    <Badge variant={p.status === 'Aluguel' ? 'aluguel' : 'venda'} className="text-[10px]">
+                      {p.status}
+                    </Badge>
                   </td>
                   <td className="px-5 py-4 hidden lg:table-cell">
                     <p className="text-sm text-gray-600">{p.brokerName ?? '—'}</p>
                   </td>
                   <td className="px-5 py-4 hidden lg:table-cell">
-                    <span className="inline-flex items-center gap-1 text-xs font-medium bg-green-100 text-green-700 px-2.5 py-1 rounded-full">Publicado</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
+                      Publicado
+                    </span>
                   </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <Link href={`/imoveis/${p.slug}`} target="_blank">
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0"><Eye className="w-3.5 h-3.5" /></Button>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <Eye className="w-3.5 h-3.5" />
+                        </Button>
                       </Link>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0"><Pencil className="w-3.5 h-3.5" /></Button>
-                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"><Trash2 className="w-3.5 h-3.5" /></Button>
+                      <Link href={`/admin/imoveis/${p.id}/editar`}>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                          <Pencil className="w-3.5 h-3.5" />
+                        </Button>
+                      </Link>
+                      <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
                     </div>
                   </td>
                 </tr>

@@ -17,18 +17,35 @@ export function ForgotPasswordForm() {
           <CheckCircle2 className="w-6 h-6 text-green-600" />
         </div>
         <p className="font-semibold text-gray-900 mb-1">E-mail enviado!</p>
-        <p className="text-sm text-gray-500">Enviamos um link de recuperação para <strong>{email}</strong>. Verifique sua caixa de entrada.</p>
+        <p className="text-sm text-gray-500">
+          Enviamos um link de recuperação para <strong>{email}</strong>. Verifique sua caixa de entrada.
+        </p>
       </div>
     )
   }
 
   return (
-    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}>
+    <form
+      className="space-y-4"
+      onSubmit={(e) => {
+        e.preventDefault()
+        setSubmitted(true)
+      }}
+    >
       <div className="space-y-1.5">
         <Label htmlFor="email">E-mail cadastrado</Label>
-        <Input id="email" type="email" placeholder="seu@email.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Input
+          id="email"
+          type="email"
+          placeholder="seu@email.com"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </div>
-      <Button type="submit" className="w-full">Enviar link de recuperação</Button>
+      <Button type="submit" className="w-full">
+        Enviar link de recuperação
+      </Button>
     </form>
   )
 }

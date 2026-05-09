@@ -45,6 +45,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+        {/* Dashboard */}
         <Link
           href="/admin"
           className={cn(
@@ -58,6 +59,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
           Dashboard
         </Link>
 
+        {/* Imóveis (collapsible) */}
         <div>
           <button
             onClick={() => setImoveisOpen(!imoveisOpen)}
@@ -135,6 +137,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
           )}
         </div>
 
+        {/* Leads */}
         <Link
           href="/admin/leads"
           className={cn(
@@ -148,6 +151,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
           Leads
         </Link>
 
+        {/* Usuários */}
         <Link
           href="/admin/usuarios"
           className={cn(
@@ -162,6 +166,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
         </Link>
       </nav>
 
+      {/* Footer */}
       <div className="px-3 py-4 border-t border-white/10">
         <Link
           href="/"
