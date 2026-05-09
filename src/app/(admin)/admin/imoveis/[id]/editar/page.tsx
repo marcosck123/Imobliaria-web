@@ -47,7 +47,7 @@ export default function EditarImovelPage() {
 
   if (!property) {
     return (
-      <div className="p-8">
+      <div className="p-4 md:p-8">
         <p className="text-gray-500">Imóvel não encontrado.</p>
         <Link href="/admin/imoveis">
           <Button variant="outline" className="mt-4">Voltar</Button>

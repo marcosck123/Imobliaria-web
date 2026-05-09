@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: 'Imóveis — Admin' }
 
 export default function AdminImoveisPage() {
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Imóveis publicados</h1>
@@ -26,7 +26,8 @@ export default function AdminImoveisPage() {
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[640px]">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
               <th className="px-5 py-3">Imóvel</th>
@@ -100,6 +101,7 @@ export default function AdminImoveisPage() {
             })}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   )

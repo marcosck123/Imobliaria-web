@@ -81,7 +81,7 @@ export default function AdminLeadsPage() {
   const novos = mockLeads.filter((l) => l.status === 'novo').length
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Leads</h1>
