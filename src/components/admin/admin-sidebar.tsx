@@ -12,15 +12,18 @@ import {
   ChevronDown,
   LogOut,
   Home,
+  UserCog,
+  X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 interface AdminSidebarProps {
   pendingCount: number
+  onClose?: () => void
 }
 
-export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
+export function AdminSidebar({ pendingCount, onClose }: AdminSidebarProps) {
   const pathname = usePathname()
   const [imoveisOpen, setImoveisOpen] = useState(
     pathname.startsWith('/admin/imoveis')
@@ -29,9 +32,9 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
   const isActive = (href: string) => pathname === href
 
   return (
-    <aside className="w-64 bg-[#1a3c5e] text-white flex flex-col min-h-screen">
+    <aside className="w-64 bg-[#1a3c5e] text-white flex flex-col min-h-screen h-full">
       {/* Logo */}
-      <div className="px-6 py-5 border-b border-white/10">
+      <div className="px-6 py-5 border-b border-white/10 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-[#e8a020] rounded-lg flex items-center justify-center flex-shrink-0">
             <Home className="w-4 h-4 text-white" />
@@ -41,6 +44,15 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
             <p className="text-white/50 text-xs">Painel Admin</p>
           </div>
         </Link>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Fechar menu"
+          >
+            <X className="w-4 h-4 text-white/70" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -48,6 +60,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
         {/* Dashboard */}
         <Link
           href="/admin"
+          onClick={onClose}
           className={cn(
             'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
             isActive('/admin')
@@ -93,6 +106,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
             <div className="mt-1 ml-4 pl-3 border-l border-white/15 space-y-0.5">
               <Link
                 href="/admin/imoveis"
+                onClick={onClose}
                 className={cn(
                   'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
                   isActive('/admin/imoveis')
@@ -104,6 +118,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
               </Link>
               <Link
                 href="/admin/imoveis/pendentes"
+                onClick={onClose}
                 className={cn(
                   'flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
                   isActive('/admin/imoveis/pendentes')
@@ -123,6 +138,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
               </Link>
               <Link
                 href="/admin/imoveis/novo"
+                onClick={onClose}
                 className={cn(
                   'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
                   isActive('/admin/imoveis/novo')
@@ -137,9 +153,25 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
           )}
         </div>
 
+        {/* Funcionários */}
+        <Link
+          href="/admin/funcionarios"
+          onClick={onClose}
+          className={cn(
+            'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+            pathname.startsWith('/admin/funcionarios')
+              ? 'bg-white/15 text-white'
+              : 'text-white/70 hover:bg-white/10 hover:text-white'
+          )}
+        >
+          <UserCog className="w-4 h-4 flex-shrink-0" />
+          Funcionários
+        </Link>
+
         {/* Leads */}
         <Link
           href="/admin/leads"
+          onClick={onClose}
           className={cn(
             'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
             isActive('/admin/leads')
@@ -154,6 +186,7 @@ export function AdminSidebar({ pendingCount }: AdminSidebarProps) {
         {/* Usuários */}
         <Link
           href="/admin/usuarios"
+          onClick={onClose}
           className={cn(
             'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
             isActive('/admin/usuarios')
