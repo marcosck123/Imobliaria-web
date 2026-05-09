@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Menu, X, Home, Shield, House, User, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
+import { Menu, X, Home, Shield, Building2, User, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/auth-context'
@@ -19,7 +19,7 @@ const navLinks = [
 
 const roleConfig: Record<Role, { label: string; icon: typeof Shield; dashboardHref: string; color: string }> = {
   ADMIN: { label: 'Admin', icon: Shield, dashboardHref: '/admin', color: 'text-purple-600' },
-  CORRETOR: { label: 'Corretor', icon: House, dashboardHref: '/corretor/dashboard', color: 'text-blue-600' },
+  CORRETOR: { label: 'Corretor', icon: Building2, dashboardHref: '/corretor/dashboard', color: 'text-blue-600' },
   CLIENTE: { label: 'Cliente', icon: User, dashboardHref: '/minha-conta/favoritos', color: 'text-gray-600' },
 }
 

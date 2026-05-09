@@ -65,7 +65,7 @@ export function RevenueChart() {
           <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
           <YAxis tickFormatter={formatValue} tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} width={60} />
           <Tooltip
-            formatter={(value: number) => [formatValue(value), '']}
+            formatter={(value) => [formatValue(Number(value)), '']}
             contentStyle={{ border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '12px' }}
           />
           <Area type="monotone" dataKey="meta" stroke="#e8a020" strokeWidth={2} strokeDasharray="4 4" fill="url(#colorMeta)" dot={false} />
